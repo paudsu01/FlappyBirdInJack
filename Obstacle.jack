@@ -1,0 +1,37 @@
+class Obstacle{
+	
+	// Gap of 80 rows 
+	field int column;
+	field int opening_row;
+
+	constructor Obstacle new(int col, int open){
+		let column = col;
+		let opening_row = open;
+		return this;
+	}
+	
+	method int get_column(){
+		return column;
+	}
+	
+	method void move(){
+		let column = column - 2;
+		return;
+	}
+	
+	method void draw(){
+		do Screen.drawLine(column, 0, column, opening_row );
+		do Screen.drawLine(column + 70, 0, column + 70, opening_row );
+		do Screen.drawLine(column, opening_row, column + 70, opening_row );
+
+		do Screen.drawLine(column, opening_row + 120 , column, 234 );
+		do Screen.drawLine(column + 70, opening_row + 120, column + 70, 234 );
+		do Screen.drawLine(column, opening_row + 120, column + 70, opening_row + 120);
+		return;
+	}
+	
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
+}
