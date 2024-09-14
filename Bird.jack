@@ -161,4 +161,10 @@ class Bird{
 		do Memory.poke(memAddress +994, 15);
 		return;
 	}
+	
+	method void dispose(){
+		do Memory.deAlloc(this);	
+		return;
+	}
+	
 }
