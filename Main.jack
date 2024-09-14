@@ -1,0 +1,31 @@
+class Main{
+
+	function void main(){
+		var FlappyBirdGame game;
+		var boolean exitKeyPressed;
+		var char key;
+		let exitKeyPressed = false;
+
+
+
+		do Output.moveCursor(5,5);
+		do Output.printString("FLAPPY BIRD by Supreme. Press space to start");
+		while (~exitKeyPressed){
+
+			let key = Keyboard.keyPressed();
+			if (key=32){	
+
+				do Screen.clearScreen();
+				let game = FlappyBirdGame.new();
+				do game.run();
+				do game.dispose();
+				do Output.moveCursor(5,5);
+				do Output.printString("GAME OVER!! PRESS SPACE TO RESTART, PRESS Q TO QUIT");
+
+			} else {
+				if (key=81){let exitKeyPressed=true;}
+			}
+		}
+		return;
+	}
+}
