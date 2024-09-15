@@ -1,0 +1,96 @@
+class FlappyBirdGame{
+	
+	field Bird flappy_bird;
+	field Obstacle obstacle_one;
+	field Obstacle obstacle_two;
+	field Obstacle obstacle_three;
+	field boolean game_started;
+	field boolean game_ended;
+	field boolean all_three_obstacles_placed;
+	
+	constructor FlappyBirdGame new(){
+		// Init 
+		let flappy_bird = Bird.new();
+		let obstacle_one = Obstacle.new(270, 60);
+		let obstacle_two = Obstacle.new(441, 20);
+		let obstacle_three = Obstacle.new(441, 100);
+		let game_ended = false;
+		let all_three_obstacles_placed = false;
+
+		return this;
+	}
+
+	method void run(){
+
+		var char key;
+		while (~game_ended) {
+			
+			let key = Keyboard.keyPressed();	
+			if (key = 32) {
+
+				let game_started=true;
+				do flappy_bird.set_speed(10);
+				do flappy_bird.going_up();
+
+				}
+
+			if (game_started){
+				do flappy_bird.move();	
+				do obstacle_one.move();	
+				do obstacle_two.move();	
+				if (all_three_obstacles_placed){
+					do obstacle_three.move();	
+					}
+			}
+			
+		
+			do update_obstacles();
+
+			do flappy_bird.draw();	
+			do obstacle_one.draw();	
+			do obstacle_two.draw();	
+			if (all_three_obstacles_placed){
+				do obstacle_three.draw();	
+			}
+			// draw straight line at row 235
+			do Screen.drawLine(0, 234, 511, 234);
+
+			do Sys.wait(50);
+			do Screen.clearScreen();
+
+		}
+		return;
+	}
+	
+	method void update_obstacles(){
+		
+		// dealloc obstacle and create new one if column value 0
+		if (obstacle_one.get_column() < 0) {
+			do obstacle_one.dispose();
+			let obstacle_one = Obstacle.new(441,50);
+		}
+
+		if (obstacle_two.get_column() < 0) {
+			do obstacle_two.dispose();
+			let obstacle_two = Obstacle.new(441,20);
+		}
+
+		if (obstacle_three.get_column() < 0) {
+			do obstacle_three.dispose();
+			let obstacle_three = Obstacle.new(441,100);
+		}
+		
+		// to place the third_obstacle
+		if (obstacle_one.get_column()  < 120) {
+			let all_three_obstacles_placed = true;
+		}
+
+		return;
+	}
+	
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
+
+}

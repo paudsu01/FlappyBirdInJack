@@ -1,12 +1,17 @@
 class Obstacle{
 	
-	// Gap of 80 rows 
 	field int column;
 	field int opening_row;
+	field int width;
+	field int gap;
+	field boolean obstacle_passed;
 
 	constructor Obstacle new(int col, int open){
 		let column = col;
 		let opening_row = open;
+		let width = 55;
+		let gap = 130;
+		let obstacle_passed = false;
 		return this;
 	}
 	
@@ -21,12 +26,12 @@ class Obstacle{
 	
 	method void draw(){
 		do Screen.drawLine(column, 0, column, opening_row );
-		do Screen.drawLine(column + 70, 0, column + 70, opening_row );
-		do Screen.drawLine(column, opening_row, column + 70, opening_row );
+		do Screen.drawLine(column + width, 0, column + width, opening_row );
+		do Screen.drawLine(column, opening_row, column + width, opening_row );
 
-		do Screen.drawLine(column, opening_row + 120 , column, 234 );
-		do Screen.drawLine(column + 70, opening_row + 120, column + 70, 234 );
-		do Screen.drawLine(column, opening_row + 120, column + 70, opening_row + 120);
+		do Screen.drawLine(column, opening_row + gap , column, 234 );
+		do Screen.drawLine(column + width, opening_row + gap, column + width, 234 );
+		do Screen.drawLine(column, opening_row + gap, column + width, opening_row + gap);
 		return;
 	}
 	
