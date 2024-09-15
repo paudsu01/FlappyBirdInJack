@@ -6,6 +6,7 @@ class FlappyBirdGame{
 	field Obstacle obstacle_three;
 	field boolean game_started;
 	field boolean game_ended;
+	field int score;
 	field boolean all_three_obstacles_placed;
 	
 	constructor FlappyBirdGame new(){
@@ -15,6 +16,7 @@ class FlappyBirdGame{
 		let obstacle_two = Obstacle.new(441, 20);
 		let obstacle_three = Obstacle.new(441, 100);
 		let game_ended = false;
+		let score = 0;
 		let all_three_obstacles_placed = false;
 
 		return this;
@@ -23,6 +25,7 @@ class FlappyBirdGame{
 	method void run(){
 
 		var char key;
+
 		while (~game_ended) {
 			
 			let key = Keyboard.keyPressed();	
@@ -52,16 +55,51 @@ class FlappyBirdGame{
 			if (all_three_obstacles_placed){
 				do obstacle_three.draw();	
 			}
-			// draw straight line at row 235
-			do Screen.drawLine(0, 234, 511, 234);
 			
 
 			// check if game over
 			do check_if_game_over();
+			// Update score
+			do update_score();
+			do show_score();
+
+			// draw straight line at row 235
+			do Screen.drawLine(0, 234, 511, 234);
 			do Sys.wait(35);
 			do Screen.clearScreen();
 
 		}
+
+		do obstacle_one.dispose();
+		do obstacle_two.dispose();
+		do obstacle_three.dispose();
+		do flappy_bird.dispose();
+
+		return;
+	}
+
+	method void show_score(){
+		do Output.moveCursor(22,50);	
+		do Output.printString("SCORE : ");	
+		do Output.printInt(score);	
+		return;
+	}
+
+	method void update_score_each_obstacle(Obstacle obs){
+
+		if (flappy_bird.get_column() > (obs.get_column() + obs.get_width())){
+			if (~obs.is_obstacle_passed()){
+				let score = score + 1;
+				do obs.set_obstacle_passed();
+			}
+		}
+		return;	
+	}
+
+	method void update_score(){
+		do update_score_each_obstacle(obstacle_one);
+		do update_score_each_obstacle(obstacle_two);
+		do update_score_each_obstacle(obstacle_three);
 		return;
 	}
 
@@ -99,29 +137,24 @@ class FlappyBirdGame{
 		return;
 	}
 
+	method void create_new_obstacle(Obstacle obs, int starting_row){
+		if (obs.get_column() < 0) {
+			do obs.dispose();
+			let obs = Obstacle.new(441,starting_row);
+		}
+	return;
+	}
+
 	method void update_obstacles(){
 		
 		// dealloc obstacle and create new one if column value 0
-		if (obstacle_one.get_column() < 0) {
-			do obstacle_one.dispose();
-			let obstacle_one = Obstacle.new(441,50);
-		}
-
-		if (obstacle_two.get_column() < 0) {
-			do obstacle_two.dispose();
-			let obstacle_two = Obstacle.new(441,20);
-		}
-
-		if (obstacle_three.get_column() < 0) {
-			do obstacle_three.dispose();
-			let obstacle_three = Obstacle.new(441,100);
-		}
-		
-		// to place the third_obstacle
-		if (obstacle_one.get_column()  < 120) {
-			let all_three_obstacles_placed = true;
-		}
-
+		do create_new_obstacle(obstacle_one, 50);
+		do create_new_obstacle(obstacle_two, 20);
+		do create_new_obstacle(obstacle_three, 90);
+ 		// to place the third_obstacle
+               	if (obstacle_one.get_column()  < 120) {
+                       let all_three_obstacles_placed = true;
+               }
 		return;
 	}
 	

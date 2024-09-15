@@ -19,6 +19,15 @@ class Obstacle{
 		return column;
 	}
 	
+	method void set_obstacle_passed(){
+		let obstacle_passed = true;
+		return;
+	}
+
+	method boolean is_obstacle_passed(){
+		return obstacle_passed;
+	}
+
 	method int get_width(){
 		return width;
 	}
