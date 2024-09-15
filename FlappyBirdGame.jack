@@ -54,14 +54,51 @@ class FlappyBirdGame{
 			}
 			// draw straight line at row 235
 			do Screen.drawLine(0, 234, 511, 234);
+			
 
-			do Sys.wait(50);
+			// check if game over
+			do check_if_game_over();
+			do Sys.wait(35);
 			do Screen.clearScreen();
 
 		}
 		return;
 	}
-	
+
+	method void check_for_boundaries(Obstacle obs){
+
+		if ((flappy_bird.get_column() + 48) > obs.get_column()){
+			if (flappy_bird.get_column() < (obs.get_column() + obs.get_width())){
+				let game_ended = true;
+			}
+		}
+		return;
+	}
+
+	method void check_for_obstacle(Obstacle obs){
+
+		if (flappy_bird.get_row() < obs.get_opening_row()){
+			do check_for_boundaries(obs);
+		}
+
+		if ((flappy_bird.get_row() + 32) > (obs.get_opening_row()+obs.get_gap())){
+			do check_for_boundaries(obs);
+		}
+		return;
+	}
+
+	method void check_if_game_over(){
+
+		if ((flappy_bird.get_row() + 32) = 234){
+
+			let game_ended = true;
+		}
+		do check_for_obstacle(obstacle_one);
+		do check_for_obstacle(obstacle_two);
+		do check_for_obstacle(obstacle_three);
+		return;
+	}
+
 	method void update_obstacles(){
 		
 		// dealloc obstacle and create new one if column value 0

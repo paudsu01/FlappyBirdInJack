@@ -19,6 +19,16 @@ class Obstacle{
 		return column;
 	}
 	
+	method int get_width(){
+		return width;
+	}
+	method int get_gap(){
+		return gap;
+	}
+	method int get_opening_row(){
+		return opening_row;
+	}
+	
 	method void move(){
 		let column = column - 2;
 		return;
